@@ -1,7 +1,7 @@
 # kronos
 Backtesting framework for Quant Illinois
 
-""" INCLUDE:
+        """ INCLUDE:
         Start                     2004-08-19 00:00:00
         End                       2013-03-01 00:00:00
         Duration                   3116 days 00:00:00
