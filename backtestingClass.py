@@ -1,4 +1,7 @@
 from typing import Callable, List, Tuple, Dict
+import yfinance as yf
+from pandas import DataFrame
+
 class Backtester:
   def __init__(self, strategy: Callable):
 
