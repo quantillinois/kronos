@@ -31,3 +31,7 @@ Backtesting framework for Quant Illinois
     Sahej: Sortino, Calmar
     Hassan: Expectancy [%], SQN
     """
+
+    Output csv of trade positions
+    Error and data logging
+    Bounds checking and error handling
