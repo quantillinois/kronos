@@ -8,11 +8,6 @@ class Backtester:
     self.strategy = strategy
 
 
-  def testTickerReport(self, ticker: str, start: str, end: str, startingAmount: float = 1000000.00) -> Dict[str, Any]: # returns a tuple of a dictionary of dates and prices, and a list of returns
-    stock = yf.Ticker(ticker)
-    data = stock.history(start=start, end=end)
-    data = data['Close']
-    return self.testCustomReport(data, start, end, startingAmount)
 
   @staticmethod
   def getRatios(pctChanges: List[float], maxDrawdown: float, overallReturn: float, n: int) -> List[float]:
@@ -31,6 +26,11 @@ class Backtester:
     calmar = (overallReturn-riskFreeRate)/abs(maxDrawdown)
     return [sharpe, sortino, calmar]
 
+  def testTickerReport(self, ticker: str, start: str, end: str, startingAmount: float = 1000000.00) -> Dict[str, Any]: # returns a tuple of a dictionary of dates and prices, and a list of returns
+    stock = yf.Ticker(ticker)
+    data = stock.history(start=start, end=end)
+    data = data['Close']
+    return self.testCustomReport(data, start, end, startingAmount)
 
   def testCustomReport(self, data: Series, start: str, end: str, startingAmount: float = 1000000.00) -> float:
     signals = self.strategy(data) # Should return list of -1, 0, 1
@@ -69,6 +69,8 @@ class Backtester:
       trades.append((currentDuration, (price-boughtPrice)/boughtPrice))
       if currentDrawdownDuration:drawdowns.append((currentDrawdownDuration, (minPrice-price)/price))
     totals = histArr
+    totals = Series(totals)
+    totals.index = data.index
     
     report = {}
     report['Start'] = start
@@ -103,7 +105,7 @@ class Backtester:
   def graphTicker(self, ticker: str, start: str, end: str) -> None:
     pass
 
-  def graphCustom(self, data: List[float]) -> None:
+  def graphCustom(self, data: Series) -> None:
     pass
 
 # How to factor in a look back period for a potential strategy
