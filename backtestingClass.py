@@ -1,16 +1,31 @@
 from typing import Callable, List, Tuple, Dict, Any
 import yfinance as yf
-from pandas import Series, Timestamp
+from pandas import Series, Timestamp, DataFrame
 from datetime import datetime, timedelta
 
 class Backtester:
-  def __init__(self, strategy: Callable):
+  def __init__(self, strategy: Callable[[DataFrame], Series]):
+    """Initializes the Backtester class with a trading strategy.
+
+    Args:
+    - strategy (Callable): Trading strategy function.
+    """
     self.strategy = strategy
-
-
 
   @staticmethod
   def getRatios(pctChanges: List[float], maxDrawdown: float, overallReturn: float, n: int) -> List[float]:
+    """Compute performance metrics for a trading strategy.
+
+    Args:
+    - pctChanges (List[float]): List of percentage changes.
+    - maxDrawdown (float): Maximum drawdown.
+    - overallReturn (float): Overall return of the strategy.
+    - n (int): Number of trades.
+
+    Returns:
+    - List[float]: List containing Sharpe ratio, Sortino ratio, and Calmar ratio.
+    """
+   
     pct = Series(pctChanges)
 
     current_date = Timestamp(datetime.today())
@@ -26,13 +41,39 @@ class Backtester:
     calmar = (overallReturn-riskFreeRate)/abs(maxDrawdown)
     return [sharpe, sortino, calmar]
 
-  def testTickerReport(self, ticker: str, start: str, end: str, startingAmount: float = 1000000.00) -> Dict[str, Any]: # returns a tuple of a dictionary of dates and prices, and a list of returns
+  def testTickerReport(self, ticker: str, start: str, end: str, startingAmount: float = 1000000.00) -> Dict[str, Any]: 
+    """Test a trading strategy on a specific ticker within a given date range.
+
+    Args:
+    - ticker (str): Stock ticker symbol.
+    - start (str): Start date for backtesting (inclusive).
+    - end (str): End date for backtesting (inclusive).
+    - startingAmount (float): Starting capital for backtesting.
+
+    Returns:
+    - Dict[str, Any]: Backtesting report dictionary.
+    """
+  
+  
     stock = yf.Ticker(ticker)
     data = stock.history(start=start, end=end)
     # data = data['Close']
     return self.testCustomReport(data, start, end, startingAmount)
 
+
   def testCustomReport(self, data: Series, startingAmount: float = 1000000.00) -> float:
+    
+    """Test a trading strategy on custom price data.
+
+    Args:
+    - data (Series): Series of closing prices.
+    - start (str): Start date for backtesting (inclusive).
+    - end (str): End date for backtesting (inclusive).
+    - startingAmount (float): Starting capital for backtesting.
+
+    Returns:
+    - Dict[str, Any]: Backtesting report dictionary.
+      """
     signals = self.strategy(data) # Should return list of -1, 0, 1
     amt = startingAmount
     histArr = []
@@ -69,8 +110,6 @@ class Backtester:
       trades.append((currentDuration, (price-boughtPrice)/boughtPrice))
       if currentDrawdownDuration:drawdowns.append((currentDrawdownDuration, (minPrice-price)/price))
     totals = histArr
-    totals = Series(totals)
-    totals.index = data.index
     
     report = {}
     report['Start'] = data.index[0]
@@ -102,8 +141,21 @@ class Backtester:
     
     return report
 
-  def graphTicker(self, ticker: str, start: str, end: str) -> None:
-    pass
 
-  def graphCustom(self, data: Series) -> None:
-    pass
+  def graphTicker(self, ticker: str, start: str, end: str) -> None:
+      """Generate a graph for a specific ticker within a given date range.
+
+      Args:
+      - ticker (str): Stock ticker symbol.
+      - start (str): Start date for graphing.
+      - end (str): End date for graphing.
+      """
+      pass
+
+  def graphCustom(self, data: List[float]) -> None:
+      """Generate a custom graph based on input data.
+
+      Args:
+      - data (List[float]): List of data values to plot.
+      """
+      pass

@@ -19,12 +19,14 @@ $ pip install kronos-backtester
 ```python
 from kronos_backtester import Backtester
 
+# Example strategy to be backtested
 def momentumStrategy(df, short_window=50, long_window=200, entry_threshold=0.02, exit_threshold=0.01):
     # Strategy code here
     # Inputs: Pandas Dataframe of price data, any relevant parameters for the strategy
         # The Dataframe will have columns 'Close', 'Open', 'High', 'Low', and 'Volume'
     # Output: Pandas Series of signals which are integers -1, 0, 1
         # -1 : Sell, 0 : Hold, 1 : Buy
+        # Index of Series should be dates
 
 # The wrapper should only take in a DataFrame and output a Series of signals
 # This is essentially one version of the strategy with a specific set of parameters.
