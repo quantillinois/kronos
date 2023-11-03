@@ -29,10 +29,10 @@ class Backtester:
   def testTickerReport(self, ticker: str, start: str, end: str, startingAmount: float = 1000000.00) -> Dict[str, Any]: # returns a tuple of a dictionary of dates and prices, and a list of returns
     stock = yf.Ticker(ticker)
     data = stock.history(start=start, end=end)
-    data = data['Close']
+    # data = data['Close']
     return self.testCustomReport(data, start, end, startingAmount)
 
-  def testCustomReport(self, data: Series, start: str, end: str, startingAmount: float = 1000000.00) -> float:
+  def testCustomReport(self, data: Series, startingAmount: float = 1000000.00) -> float:
     signals = self.strategy(data) # Should return list of -1, 0, 1
     amt = startingAmount
     histArr = []
@@ -73,8 +73,8 @@ class Backtester:
     totals.index = data.index
     
     report = {}
-    report['Start'] = start
-    report['End'] = end
+    report['Start'] = data.index[0]
+    report['End'] = data.index[-1]
     report['Duration'] = len(totals)
     report['Exposure Time'] = sum([x[0] for x in trades])/len(trades)
     report['Net Worth'] = totals
@@ -107,6 +107,3 @@ class Backtester:
 
   def graphCustom(self, data: Series) -> None:
     pass
-
-# How to factor in a look back period for a potential strategy
-# Data clean up and organization between different sources
