@@ -1,3 +1,6 @@
+import plotly.graph_objs as go
+import plotly.express as px
+
 from typing import Callable, List, Tuple, Dict, Any
 import yfinance as yf
 from pandas import Series, Timestamp, DataFrame
@@ -142,20 +145,28 @@ class Backtester:
     return report
 
 
-  def graphTicker(self, ticker: str, start: str, end: str) -> None:
-      """Generate a graph for a specific ticker within a given date range.
+def graphTicker(self, ticker: str, start: str, end: str) -> None:
+    """Generate a graph for a specific ticker within a given date range.
 
-      Args:
-      - ticker (str): Stock ticker symbol.
-      - start (str): Start date for graphing.
-      - end (str): End date for graphing.
-      """
-      pass
+    Args:
+    - ticker (str): Stock ticker symbol.
+    - start (str): Start date for graphing.
+    - end (str): End date for graphing.
+    """
+    stock = yf.Ticker(ticker)
+    data = stock.history(start=start, end=end)
+    fig = px.line(data, x=data.index, y='Close', title=f'{ticker} Closing Prices')
+    fig.update_xaxes(title_text='Date')
+    fig.update_yaxes(title_text='Close Price (USD)')
+    fig.show()
 
-  def graphCustom(self, data: List[float]) -> None:
-      """Generate a custom graph based on input data.
+def graphCustom(self, data: List[float], dates: List[datetime]) -> None:
+    """Generate a custom graph based on input data.
 
-      Args:
-      - data (List[float]): List of data values to plot.
-      """
-      pass
+    Args:
+    - data (List[float]): List of data values to plot.
+    - dates (List[datetime]): List of datetime objects corresponding to the data values.
+    """
+    fig = go.Figure(data=go.Scatter(x=dates, y=data))
+    fig.update_layout(title='Custom Data Plot', xaxis_title='Date', yaxis_title='Value')
+    fig.show()
