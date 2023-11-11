@@ -160,63 +160,55 @@ class Backtester:
     dates = data.index.to_list()
     backtests = self.testCustomReport(data['Close'])
 
-    # Create figure with secondary y-axis
     fig = go.Figure()
 
     fig.add_trace(go.Scatter(x=dates, y=prices, mode='lines', name='Stock Price'))
 
-    fig.add_trace(go.Scatter(x=dates, y=backtests['Net Worth'], mode='lines', name='Backtesting Balance', yaxis='y2'))
+    fig.add_trace(go.Scatter(x=dates, y=backtests['Net Worth'], mode='lines', name='Strategy Performance', yaxis='y2'))
 
     # Create axis objects
     fig.update_layout(
         yaxis=dict(title='Stock Price'),
         yaxis2=dict(
-            title='Backtesting Balance',
+            title='Strategy Performance',
             overlaying='y',
             side='right'
         ),
-        title=f"{ticker} Stock and Backtesting Balance",
+        title=f"{ticker} Strategy Performance",
         xaxis_title="Date"
     )
 
-    # Show plot
     fig.show()
 
     def graphCustom(self, data: Series) -> None:
-      # Extract necessary data for plotting
       prices = data.values
       dates = data.index
 
-      # Perform the strategy on the provided data
       signals = self.strategy(data)
       backtests = []
 
-      # Calculate backtesting balance
       balance = 1000000
       for price, signal in zip(prices, signals):
           balance *= 1 + (signal * random.randrange(-100, 100) / 1000)
           backtests.append(balance)
 
-      # Create figure with secondary y-axis
       fig = go.Figure()
 
       fig.add_trace(go.Scatter(x=dates, y=prices, mode='lines', name='Stock Price'))
 
-      fig.add_trace(go.Scatter(x=dates, y=backtests, mode='lines', name='Backtesting Balance', yaxis='y2'))
+      fig.add_trace(go.Scatter(x=dates, y=backtests, mode='lines', name='Strategy Performance', yaxis='y2'))
 
-      # Create axis objects
       fig.update_layout(
           yaxis=dict(title='Stock Price'),
           yaxis2=dict(
-              title='Backtesting Balance',
+              title='Strategy Performance',
               overlaying='y',
               side='right'
           ),
-          title="Custom Stock and Backtesting Balance",
+          title="Custom Stock and Strategy Performance",
           xaxis_title="Date"
       )
 
-      # Show plot
       fig.show()
 
 # Example usage
