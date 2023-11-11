@@ -1,4 +1,8 @@
 # kronos-backtester
+## Preview
+<img width="1398" alt="graph-example" src="https://github.com/quantillinois/kronos/assets/62070812/f3bd2d05-f48e-4e75-b069-e56ae473dd34">
+
+
 ## Installation
 ``` {.sourceCode .bash}
 $ pip install kronos-backtester
