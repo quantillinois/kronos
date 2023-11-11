@@ -10,11 +10,9 @@ $ pip install kronos-backtester
 
 ### Requirements
 
--   [Python](https://www.python.org) \>= 3.5+
--   [Pandas](https://github.com/pydata/pandas) \>= 2.0.0
--   [matplotlib](https://matplotlib.org) \>= 3.8.1
--   [typing](https://docs.python.org/3/library/typing.html) \>= 3.5+
--   [datetime](https://docs.python.org/3/library/datetime.html) \>= 3.5+
+-   [Python](https://www.python.org) \>= 3.7.1
+-   [Pandas](https://github.com/pydata/pandas) \>= 1.3.0
+-   [YFinance](https://github.com/ranaroussi/yfinance)
 
 ---
 
