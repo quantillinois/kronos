@@ -1,4 +1,7 @@
 # kronos-backtester
+## Overview
+"Kronos-Backtester" is a Python-based toolkit for financial data analysis and backtesting of trading strategies. It provides an effective platform for simulating trading strategies using historical data to evaluate their performance and potential profitability.
+
 ## Preview
 <img width="1398" alt="graph-example" src="https://github.com/quantillinois/kronos/assets/62070812/f3bd2d05-f48e-4e75-b069-e56ae473dd34">
 
@@ -68,3 +71,19 @@ bt.testCustomReport(customDF)
     Sharpe Ratio 33.99413578326285
     Sortino Ratio nan
     Calmar Ratio 69.11692296006356
+
+
+## Troubleshooting & FAQ
+Common Questions and Issues
+
+    ● Q: What if I encounter an error regarding missing data?
+
+● A: Ensure that all required data fields are present in your dataset. Missing data can often lead to errors during the backtesting process. 
+
+    ● Q: How do I handle a strategy that requires multiple stock tickers?
+
+● A: Modify your strategy function to accept and process multiple tickers. Ensure that your backtester is provided with the correct data format.
+
+    ● Q: The backtester is running very slow. How can I improve its performance?
+
+● A: Performance can be improved by optimizing your strategy code. Consider reducing the complexity of calculations or using efficient data structures.
